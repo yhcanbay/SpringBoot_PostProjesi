@@ -32,7 +32,7 @@ public class PostControllerImpl implements IPostController {
     public Post getOnePost(@PathVariable Long postId){
         return postService.getOnePostById(postId);
     }
-@PostMapping
+    @PostMapping
     @Override
     public Post createOnePost(@RequestBody Post newPost) {
         return null;
