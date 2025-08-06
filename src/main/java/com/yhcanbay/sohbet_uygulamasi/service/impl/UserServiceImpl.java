@@ -27,8 +27,7 @@ public class UserServiceImpl implements IUserService {
     public DtoUser createUser(DtoUser user) {
         User newUser = new User();
 
-        newUser.setPassword(user.getPassword());
-        newUser.setUserName(user.getUserName());
+        BeanUtils.copyProperties(user, newUser);
 
         userRepository.save(newUser);
 

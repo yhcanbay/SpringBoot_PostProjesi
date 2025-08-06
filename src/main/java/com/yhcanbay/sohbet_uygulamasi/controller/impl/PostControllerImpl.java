@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.yhcanbay.sohbet_uygulamasi.controller.IPostController;
+import com.yhcanbay.sohbet_uygulamasi.dto.DtoPost;
 import com.yhcanbay.sohbet_uygulamasi.entities.Post;
 import com.yhcanbay.sohbet_uygulamasi.service.impl.PostServiceImpl;
 
@@ -34,7 +35,7 @@ public class PostControllerImpl implements IPostController {
     }
     @PostMapping
     @Override
-    public Post createOnePost(@RequestBody Post newPost) {
+    public DtoPost createOnePost(@RequestBody DtoPost newPost) {
         return null;
     }
 }

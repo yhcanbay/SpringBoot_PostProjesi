@@ -3,6 +3,7 @@ package com.yhcanbay.sohbet_uygulamasi.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.yhcanbay.sohbet_uygulamasi.dto.DtoPost;
 import com.yhcanbay.sohbet_uygulamasi.entities.Post;
 
 public interface IPostService {
@@ -10,5 +11,5 @@ public interface IPostService {
 
     public Post getOnePostById(Long postId);
 
-    public Post createOnePost(Post newPost);
+    public DtoPost createOnePost(DtoPost newPost);
 }
