@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class DtoPost {
 
-    private Long id;
     private Long userId;
     private String title;
     private String text;

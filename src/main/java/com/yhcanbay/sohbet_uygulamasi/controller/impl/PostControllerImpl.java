@@ -30,12 +30,12 @@ public class PostControllerImpl implements IPostController {
     }
 
     @GetMapping(path = "/{post_id}")
-    public Post getOnePost(@PathVariable Long postId){
-        return postService.getOnePostById(postId);
+    public Post getOnePost(@PathVariable Long post_id){
+        return postService.getOnePostById(post_id);
     }
     @PostMapping
     @Override
     public DtoPost createOnePost(@RequestBody DtoPost newPost) {
-        return null;
+        return postService.createOnePost(newPost);
     }
 }
