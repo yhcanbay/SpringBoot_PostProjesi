@@ -17,4 +17,8 @@ public interface IPostController {
     public Post getOnePost(@PathVariable Long postId);
 
     public DtoPost createOnePost(@RequestBody DtoPost newPost);
+
+    DtoPost updateOnePost(Long post_id, DtoPost updatedPost);
+
+    DtoPost deleteOnePost(Long post_id);
 }

@@ -12,4 +12,8 @@ public interface IPostService {
     public Post getOnePostById(Long postId);
 
     public DtoPost createOnePost(DtoPost newPost);
+
+    public DtoPost updateOnePost(Long postId, DtoPost updatedPost);
+
+    public DtoPost deleteOnePost(Long post_id);
 }

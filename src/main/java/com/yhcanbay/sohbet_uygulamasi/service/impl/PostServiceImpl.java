@@ -33,7 +33,12 @@ public class PostServiceImpl implements IPostService{
 
     @Override
     public Post getOnePostById(Long postId) {
-        return postRepository.findById(postId).get();
+        Optional<Post> optional = postRepository.findById(postId);
+
+        if(optional.isPresent()){
+            return optional.get();
+        }
+        return null;
     }
 
     @Override
@@ -54,4 +59,41 @@ public class PostServiceImpl implements IPostService{
 
         return newPost;
     }
+
+    @Override
+    public DtoPost updateOnePost(Long postId, DtoPost updatedPost) {
+        Optional<Post> optional = postRepository.findById(postId); 
+
+        if(optional.isPresent()){
+            Post post = optional.get();
+            BeanUtils.copyProperties(updatedPost, post);
+            post = postRepository.save(post);
+            DtoPost dtoPost = new DtoPost();
+            BeanUtils.copyProperties(post, dtoPost);
+            return dtoPost;
+        }
+
+        return updatedPost;
+    }
+
+    @Override
+    public DtoPost deleteOnePost(Long post_id) {
+        
+        Optional<Post> optional = postRepository.findById(post_id);
+
+        if(optional.isPresent()){
+            DtoPost copy = new DtoPost();
+            Post post = optional.get();
+
+            BeanUtils.copyProperties(post, copy);
+            postRepository.delete(post);
+
+            return copy;
+        }
+        
+        return null;
+    }
+
+    
+
 }

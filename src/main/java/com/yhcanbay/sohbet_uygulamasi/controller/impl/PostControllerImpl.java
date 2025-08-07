@@ -4,9 +4,11 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -37,5 +39,17 @@ public class PostControllerImpl implements IPostController {
     @Override
     public DtoPost createOnePost(@RequestBody DtoPost newPost) {
         return postService.createOnePost(newPost);
+    }
+
+    @PutMapping(path = "/{post_id}")
+    @Override
+    public DtoPost updateOnePost(@PathVariable Long post_id, @RequestBody DtoPost updatedPost) {
+        return postService.updateOnePost(post_id, updatedPost);
+    }
+
+    @DeleteMapping(path = "/{post_id}")
+    @Override
+    public DtoPost deleteOnePost(@PathVariable Long post_id){
+        return postService.deleteOnePost(post_id);
     }
 }
