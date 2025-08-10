@@ -1,7 +1,9 @@
 package com.yhcanbay.sohbet_uygulamasi.entities;
 
+import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -30,5 +32,6 @@ public class Comment {
 
     @Lob
     @Column(columnDefinition = "text")
+    @Basic(fetch = FetchType.EAGER)
     private String text;
 }

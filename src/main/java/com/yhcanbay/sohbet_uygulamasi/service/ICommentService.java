@@ -9,6 +9,8 @@ public interface ICommentService {
 
     public List<DtoComment> getAllComments(Optional<Long> userId, Optional<Long> postId);
 
-    public DtoComment getOneComment();
+    public DtoComment getOneComment(Long commentId);
+
+    DtoComment createOneComment(DtoComment dtoComment);
 
 }

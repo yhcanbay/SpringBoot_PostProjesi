@@ -9,4 +9,8 @@ public interface ICommentController {
 
     public List<DtoComment> getAllComments(Optional<Long> userId, Optional<Long> postId);
 
+    public DtoComment getOneComment(Long commentId);
+
+    DtoComment createOneComment(DtoComment dtoComment);
+
 }
