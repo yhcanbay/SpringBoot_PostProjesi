@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.yhcanbay.sohbet_uygulamasi.dto.DtoComment;
 import com.yhcanbay.sohbet_uygulamasi.entities.Comment;
@@ -16,6 +17,7 @@ import com.yhcanbay.sohbet_uygulamasi.repository.ICommentRepository;
 import com.yhcanbay.sohbet_uygulamasi.repository.IPostRepository;
 import com.yhcanbay.sohbet_uygulamasi.repository.IUserRepository;
 import com.yhcanbay.sohbet_uygulamasi.service.ICommentService;
+
 
 @Service
 public class CommentServiceImpl implements ICommentService{
@@ -28,6 +30,7 @@ public class CommentServiceImpl implements ICommentService{
     IPostRepository postRepository;
 
 
+    @Transactional(readOnly = true)
     @Override
     public List<DtoComment> getAllComments(Optional<Long> userId, Optional<Long> postId) {
         
@@ -46,7 +49,7 @@ public class CommentServiceImpl implements ICommentService{
         
         for (Comment comment : commentList) {
             DtoComment dtoComment = new DtoComment();
-            BeanUtils.copyProperties(comment, dtoComment);
+            dtoComment.setText(comment.getText());
             dtoComment.setPostId(comment.getPost().getId());
             dtoComment.setUserId(comment.getUser().getId());
 

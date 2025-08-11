@@ -31,7 +31,7 @@ public class Comment {
     Post post;
 
     @Lob
-    @Column(columnDefinition = "text")
+    @Column(columnDefinition = "TEXT")
     @Basic(fetch = FetchType.EAGER)
     private String text;
 }
