@@ -1,5 +1,14 @@
 package com.yhcanbay.sohbet_uygulamasi.controller;
 
+import java.util.List;
+import java.util.Optional;
+
+import com.yhcanbay.sohbet_uygulamasi.dto.DtoLike;
+
 public interface ILikeController {
+
+    List<DtoLike> getAllLikes(Optional<Long> userId, Optional<Long> postId);
+
+    DtoLike getOneLike(Long likeId);
 
 }
