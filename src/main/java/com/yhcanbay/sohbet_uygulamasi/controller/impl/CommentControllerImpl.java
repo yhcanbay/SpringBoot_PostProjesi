@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,7 @@ import com.yhcanbay.sohbet_uygulamasi.controller.ICommentController;
 import com.yhcanbay.sohbet_uygulamasi.dto.DtoComment;
 import com.yhcanbay.sohbet_uygulamasi.service.ICommentService;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
@@ -43,6 +45,17 @@ public class CommentControllerImpl implements ICommentController {
         return commentService.createOneComment(dtoComment);
     }
     
+    @Override
+    @PutMapping(path = "/{commentId}")
+    public DtoComment updateComment(@PathVariable Long commentId , @RequestBody DtoComment dtoComment){
+
+        return commentService.updateComment(commentId, dtoComment);
+    }
     
+    @Override
+    @DeleteMapping(path = "/{commentId}")
+    public DtoComment deleteComment(@PathVariable Long commentId){
+        return commentService.deleteComment(commentId);
+    }
 
 }

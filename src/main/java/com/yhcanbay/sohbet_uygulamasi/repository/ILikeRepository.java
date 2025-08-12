@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.yhcanbay.sohbet_uygulamasi.entities.Like;
 
 @Repository
-public interface ILikeRpository extends JpaRepository<Like,Long> {
+public interface ILikeRepository extends JpaRepository<Like,Long> {
 
 }

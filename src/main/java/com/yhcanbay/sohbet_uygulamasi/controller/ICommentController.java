@@ -13,4 +13,8 @@ public interface ICommentController {
 
     DtoComment createOneComment(DtoComment dtoComment);
 
+    DtoComment updateComment(Long commentId, DtoComment dtoComment);
+
+    DtoComment deleteComment(Long commentId);
+
 }

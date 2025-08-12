@@ -101,6 +101,41 @@ public class CommentServiceImpl implements ICommentService{
         return null;
     }
 
-    
+    @Override
+    public DtoComment updateComment(Long commentId , DtoComment dtoComment){
+        
+        Optional<Comment> optional = commentRepository.findById(commentId);
+
+        if(optional.isPresent()){
+            Comment comment = optional.get();
+
+            comment.setText(dtoComment.getText());
+
+            commentRepository.save(comment);
+
+            DtoComment updatedComment = new DtoComment(comment.getUser().getId(), comment.getPost().getId(),comment.getText());
+
+            return updatedComment;
+        }
+        
+        return null;
+    }
+
+    @Override
+    public DtoComment deleteComment(Long commentId){
+        Optional<Comment> optional = commentRepository.findById(commentId);
+
+        if(optional.isPresent()){
+            Comment comment = optional.get();
+
+            DtoComment deletedComment = new DtoComment(comment.getUser().getId(), comment.getPost().getId(),comment.getText());
+        
+            commentRepository.delete(comment);
+
+            return deletedComment;
+        }
+
+        return null;
+    }
 
 }
