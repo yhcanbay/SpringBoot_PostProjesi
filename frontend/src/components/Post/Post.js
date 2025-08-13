@@ -1,38 +1,39 @@
-import React, {useState,useEffect} from "react";
-import ReactDOM from "react-dom";
+import React, { useState, useEffect } from "react";
 
-function Post(){
-    const [error,setError] = useState(null);
-    const [isLoaded,setIsLoaded] = useState(false);
+function Post() {
+    const [error, setError] = useState(null);
+    const [isLoaded, setIsLoaded] = useState(false);
     const [postList, setPostList] = useState([]);
 
-    useEffect (() => {
+    useEffect(() => {
         fetch("/posts")
-        .then(res => res.json)
-        .then(
-            (result) => {
-                setIsLoaded(true);
-                setPostList(true);
-            },
-            (error) => {
-                setIsLoaded(true);
-                setError(error)
-            }
-        )
-    }, [])
+            .then(res => res.json())
+            .then(
+                (result) => {
+                    setIsLoaded(true);
+                    setPostList(result);
+                },
+                (error) => {
+                    setIsLoaded(true);
+                    setError(error);
+                }
+            );
+    }, []);
 
-    if(error){
+    if (error) {
         return <div>Error !!!</div>;
-    } else if(!isLoaded){
+    } else if (!isLoaded) {
         return <div>Loading...</div>;
-    } else{
-        return <ul>
-            {postList.map(post => (
-                <li>
-                    {post.title} {post.text}
-                </li>
-            ))}
-        </ul>
+    } else {
+        return (
+            <ul>
+                {postList.map(post => (
+                    <li key={post.id}>
+                        {post.title} {post.text}
+                    </li>
+                ))}
+            </ul>
+        );
     }
 }
 
