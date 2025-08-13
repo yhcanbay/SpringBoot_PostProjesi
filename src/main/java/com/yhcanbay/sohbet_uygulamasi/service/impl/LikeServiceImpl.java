@@ -92,4 +92,21 @@ public class LikeServiceImpl implements ILikeService{
 
         return null;
     }
+
+    @Override
+    public DtoLike deleteLike(Long likeId){
+
+        Optional<Like> optional = likeRepository.findById(likeId);
+
+        if(optional.isPresent()){
+            Like like = optional.get();
+            DtoLike dtoLike = new DtoLike(like.getUser().getId(),like.getPost().getId());
+
+            likeRepository.delete(like);
+
+            return dtoLike;
+        }
+
+        return null;
+    }
 }

@@ -11,4 +11,8 @@ public interface ILikeController {
 
     DtoLike getOneLike(Long likeId);
 
+    DtoLike createLike(DtoLike dtoLike);
+
+    DtoLike deleteLike(Long postId);
+
 }
