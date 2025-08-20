@@ -29,7 +29,7 @@ function Post() {
             <ul>
                 {postList.map(post => (
                     <li key={post.id}>
-                        {post.title} {post.text}
+                        {post.title} : {post.text}
                     </li>
                 ))}
             </ul>
