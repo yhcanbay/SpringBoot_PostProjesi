@@ -1,6 +1,8 @@
 import Post from "../Post/Post";
 import React, { useState, useEffect,} from "react";
 import "./Home.scss";
+import Container from "@mui/material/Container";
+import CssBaseline from "@mui/material/CssBaseline";
 
 function Home() {
 
@@ -33,16 +35,17 @@ function Home() {
         return <div>Veri format hatası</div>
     } else {
         return (
-            <div className="container">
-            <h1>Ana Sayfa</h1>
-            <p>Ana sayfaya hoşgeldiniz...</p>
             
-            <ul>
-                {postList.map(post => (
-                    <Post title={post.title} text={post.text}></Post>
-                ))}
-            </ul>
-            </div>
+            <React.Fragment>
+                <CssBaseline>
+                    <Container className="container" maxWidth="md">
+                    {postList.map(post => (
+                        <Post title={post.title} text={post.text}></Post>
+                    ))}
+                    </Container>
+                </CssBaseline>
+            </React.Fragment>
+            
         );
     }
 }
