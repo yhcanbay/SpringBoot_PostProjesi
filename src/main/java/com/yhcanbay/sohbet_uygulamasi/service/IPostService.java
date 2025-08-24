@@ -7,7 +7,7 @@ import com.yhcanbay.sohbet_uygulamasi.dto.DtoPost;
 import com.yhcanbay.sohbet_uygulamasi.entities.Post;
 
 public interface IPostService {
-    public List<Post> getAllPosts(Optional<Long> userId);
+    public List<DtoPost> getAllPosts(Optional<Long> userId);
 
     public Post getOnePostById(Long postId);
 

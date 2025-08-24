@@ -27,7 +27,7 @@ public class PostControllerImpl implements IPostController {
     private PostServiceImpl postService;
 
     @GetMapping()
-    public List<Post> getAllPosts(@RequestParam Optional<Long> userId){
+    public List<DtoPost> getAllPosts(@RequestParam Optional<Long> userId){
         return postService.getAllPosts(userId);
     }
 

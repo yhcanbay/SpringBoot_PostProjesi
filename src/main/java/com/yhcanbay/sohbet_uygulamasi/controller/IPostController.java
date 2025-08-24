@@ -12,7 +12,7 @@ import com.yhcanbay.sohbet_uygulamasi.entities.Post;
 
 public interface IPostController {
     
-    public List<Post> getAllPosts(@RequestParam Optional<Long> userId);
+    public List<DtoPost> getAllPosts(@RequestParam Optional<Long> userId);
 
     public Post getOnePost(@PathVariable Long postId);
 

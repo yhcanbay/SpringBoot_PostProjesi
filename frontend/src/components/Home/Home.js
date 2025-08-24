@@ -40,7 +40,7 @@ function Home() {
                 <CssBaseline>
                     <Container className="container" maxWidth="md">
                     {postList.map(post => (
-                        <Post title={post.title} text={post.text}></Post>
+                        <Post title={post.title} text={post.text} userId={post.userId} userName={post.userName}></Post>
                     ))}
                     </Container>
                 </CssBaseline>

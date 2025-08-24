@@ -1,11 +1,13 @@
 package com.yhcanbay.sohbet_uygulamasi.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.yhcanbay.sohbet_uygulamasi.dto.DtoPost;
 import com.yhcanbay.sohbet_uygulamasi.entities.Post;
@@ -23,12 +25,39 @@ public class PostServiceImpl implements IPostService{
     @Autowired
     IUserRepository userRepository;
 
+    @Transactional(readOnly = true)
     @Override
-    public List<Post> getAllPosts(Optional<Long> userId) {
+    public List<DtoPost> getAllPosts(Optional<Long> userId) {
+        
         if(userId.isPresent()){
-            return postRepository.findByUserId(userId.get());
-        }   
-        return postRepository.findAll(); 
+            Optional<User> optional = userRepository.findById(userId.get());
+        
+            if(optional.isPresent()){
+
+                List<Post> postList = postRepository.findByUserId(userId.get());
+                List<DtoPost> dtoList = new ArrayList<DtoPost>();
+
+                for (Post post : postList) {
+                    User user = post.getUser();
+                    dtoList.add(new DtoPost(user.getId(),user.getUserName(),post.getTitle(),post.getText()));
+                }
+
+                return dtoList;
+            }
+        }else if(!userId.isPresent()){
+
+            List<Post> postList = postRepository.findAll();
+            List<DtoPost> dtoList = new ArrayList<DtoPost>();
+            
+            for (Post post : postList) {
+                User user = post.getUser();
+                dtoList.add(new DtoPost(user.getId(),user.getUserName(),post.getTitle(),post.getText()));
+            }
+
+            return dtoList; 
+        }
+
+        return null;
     }
 
     @Override

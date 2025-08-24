@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -12,6 +12,7 @@ import { red } from '@mui/material/colors';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import CommentIcon from '@mui/icons-material/Comment';
+import { Link } from 'react-router-dom';
 
 const PostStyle = {
     width : '100%',
@@ -19,6 +20,11 @@ const PostStyle = {
     justifyContent : 'center',
     alignItems : 'center',
     margin : 'o auto'
+}
+
+const linkStyle = {
+    textDecoration: 'none',
+    boxShadow: 'none',
 }
 
 const ExpandMore = styled((props) => {
@@ -47,22 +53,28 @@ const ExpandMore = styled((props) => {
 
 
 function Post(props) {
-    const { title, text } = props;
-
+    const { title, text, userId, userName } = props;
+    const [liked,setLiked] = useState(false);
     const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
+  const clickLike = () => {
+    setLiked(!liked);
+  }
+
   return (
     <div style={PostStyle}>
     <Card>
       <CardHeader
         avatar={
+          <Link style={linkStyle} to={"/users/" + userId}>
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-            R
+            {userName.charAt(0).toUpperCase()}
           </Avatar>
+          </Link>
         }
         title=<h3>{title}</h3>
       />
@@ -72,8 +84,8 @@ function Post(props) {
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
+        <IconButton onClick={clickLike} aria-label="add to favorites">
+          <FavoriteIcon style={liked? {color : "red"} : null} />
         </IconButton>
         <ExpandMore
           expand={expanded}
