@@ -12,13 +12,16 @@ import { red } from '@mui/material/colors';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import CommentIcon from '@mui/icons-material/Comment';
 import { Link } from 'react-router-dom';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import Button from '@mui/material/Button';
 
 const PostStyle = {
     width : '100%',
     maxWidth : '800px',
     justifyContent : 'center',
     alignItems : 'center',
-    margin : '20px'
+    margin : '20px',
+    borderRadius : '50px'
 }
 
 const linkStyle = {
@@ -56,7 +59,7 @@ const ExpandMore = styled((props) => {
 }));
 
 
-function Post(props) {
+function PostFrame(props) {
     const { title, text, userId, userName ,id} = props;
     const [liked,setLiked] = useState(false);
     const [expanded, setExpanded] = React.useState(false);
@@ -85,7 +88,7 @@ function Post(props) {
     }, [id]);
 
   const handleExpandClick = () => {
-    setExpanded(!expanded);
+    setExpanded(expanded);
   };
 
   const clickLike = () => {
@@ -111,16 +114,28 @@ function Post(props) {
           </Avatar>
           </Link>
         }
-        title=<h3>{title}</h3>
+        title = <OutlinedInput
+        id='outlined-basic'
+        multiline
+        fullWidth   
+        placeholder='Title'
+        inputProps={{ maxLength: 30 }}>
+        </OutlinedInput>
       />
       <CardContent>
         <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-            {text}
+            <OutlinedInput
+        id='outlined-basic'
+        multiline
+        fullWidth   
+        placeholder='Text'
+        inputProps={{ maxLength: 300 }}>
+        </OutlinedInput>
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
         <IconButton onClick={clickLike} aria-label="add to favorites">
-          <FavoriteIcon style={liked? {color : "red"} : null} />
+          {/* <FavoriteIcon style={liked? {color : "red"} : null} /> */}
         </IconButton>
         <ExpandMore
           expand={expanded}
@@ -128,7 +143,7 @@ function Post(props) {
           aria-expanded={expanded}
           aria-label="show more"
         >
-        <h5>{commentList.length + " "}</h5><CommentIcon />
+        <Button style={{backgroundImage: "linear-gradient(45deg, #139A43, #58B09C)"}} variant="contained">Yayımla</Button>
         </ExpandMore>
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
@@ -145,4 +160,4 @@ function Post(props) {
   }
 }
 
-export default Post;
+export default PostFrame;

@@ -39,7 +39,7 @@ public class PostServiceImpl implements IPostService{
 
                 for (Post post : postList) {
                     User user = post.getUser();
-                    dtoList.add(new DtoPost(user.getId(),user.getUserName(),post.getTitle(),post.getText()));
+                    dtoList.add(new DtoPost(post.getId(),user.getId(),user.getUserName(),post.getTitle(),post.getText()));
                 }
 
                 return dtoList;
@@ -51,7 +51,7 @@ public class PostServiceImpl implements IPostService{
             
             for (Post post : postList) {
                 User user = post.getUser();
-                dtoList.add(new DtoPost(user.getId(),user.getUserName(),post.getTitle(),post.getText()));
+                dtoList.add(new DtoPost(post.getId(),user.getId(),user.getUserName(),post.getTitle(),post.getText()));
             }
 
             return dtoList; 

@@ -1,8 +1,8 @@
 import Post from "../Post/Post";
 import React, { useState, useEffect,} from "react";
 import "./Home.scss";
-import Container from "@mui/material/Container";
 import CssBaseline from "@mui/material/CssBaseline";
+import PostFrame from "../Post/PostForm";
 
 function Home() {
 
@@ -25,6 +25,7 @@ function Home() {
                 setError(error);
             }
         );
+    
     }, []);
 
     if (error) {
@@ -39,8 +40,9 @@ function Home() {
             <React.Fragment>
                 <CssBaseline>
                     <div className="container" maxWidth="md">
+                    <PostFrame title={"srsrg"} text={"srgrs"} userId={1} userName={"dthbtd"} id={0}></PostFrame>
                     {postList.map(post => (
-                        <Post title={post.title} text={post.text} userId={post.userId} userName={post.userName}></Post>
+                        <Post title={post.title} text={post.text} userId={post.userId} userName={post.userName} id={post.id}></Post>
                     ))}
                     </div>
                 </CssBaseline>
