@@ -38,11 +38,11 @@ function Home() {
             
             <React.Fragment>
                 <CssBaseline>
-                    <Container className="container" maxWidth="md">
+                    <div className="container" maxWidth="md">
                     {postList.map(post => (
                         <Post title={post.title} text={post.text} userId={post.userId} userName={post.userName}></Post>
                     ))}
-                    </Container>
+                    </div>
                 </CssBaseline>
             </React.Fragment>
             

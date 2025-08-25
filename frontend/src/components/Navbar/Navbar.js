@@ -20,6 +20,9 @@ function Navbar() {
       color: 'white',
       boxShadow: 'none',
       textAlign: 'right'
+    },
+    appBar : {
+      backgroundColor : "#139A43"
     }
   }
 
@@ -29,7 +32,7 @@ function Navbar() {
 
     return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="static" style={styles.appBar}>
         <Toolbar>
           <IconButton
             size="large"
