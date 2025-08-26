@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class DtoLike {
 
+    Long id;
     Long userId;
-
     Long postId;
 }

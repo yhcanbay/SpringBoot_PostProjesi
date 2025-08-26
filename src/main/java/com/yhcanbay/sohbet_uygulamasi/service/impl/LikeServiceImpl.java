@@ -50,6 +50,7 @@ public class LikeServiceImpl implements ILikeService{
             DtoLike dtoLike = new DtoLike();
             dtoLike.setPostId(like.getPost().getId());
             dtoLike.setUserId(like.getUser().getId());
+            dtoLike.setId(like.getId());
 
             dtoList.add(dtoLike);
         }
@@ -69,6 +70,7 @@ public class LikeServiceImpl implements ILikeService{
 
             dtoLike.setPostId(like.getPost().getId());
             dtoLike.setUserId(like.getUser().getId());
+            dtoLike.setId(like.getId());
 
             return dtoLike;
         }
@@ -95,16 +97,19 @@ public class LikeServiceImpl implements ILikeService{
         return null;
     }
 
+    @Transactional(readOnly = true)
     @Override
-    public DtoLike deleteLike(Long likeId){
+    public DtoLike deleteLike(Long userId,Long postId){
 
-        Optional<Like> optional = likeRepository.findById(likeId);
+        List<Like> optional = likeRepository.findByUserIdAndPostId(userId, postId);
 
-        if(optional.isPresent()){
-            Like like = optional.get();
-            DtoLike dtoLike = new DtoLike(like.getUser().getId(),like.getPost().getId());
+        if(optional.size()==1){
+            Like like = optional.get(0);
+            DtoLike dtoLike = new DtoLike(like.getId(),like.getUser().getId(),like.getPost().getId());
 
             likeRepository.delete(like);
+
+            System.out.println(like);
 
             return dtoLike;
         }

@@ -13,6 +13,6 @@ public interface ILikeService {
 
     DtoLike createLike(DtoLike dtoLike);
 
-    DtoLike deleteLike(Long likeId);
+    DtoLike deleteLike(Long userId,Long postId);
 
 }

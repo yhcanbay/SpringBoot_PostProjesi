@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {  useEffect, useState } from 'react';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -66,26 +66,6 @@ function Post(props) {
     const [isLoaded, setIsLoaded] = useState(false);
     const [commentList, setCommentList] = useState([]); 
     const isInitialMount = React.useRef(true);
-
-    const isLikedByUser = (likes, userId) => {
-      fetch("/likes?postId=" + id + "&userId=" + userId)
-        .then(res => res.json())
-        .then(
-            (result) => {
-                setIsLoaded(true);
-                if(result == null || result.length === 0){
-                  setLiked(false);
-                }else{
-                  setLiked(true);
-                }
-            },
-            (error) => {
-                setIsLoaded(true);
-                setError(error);
-                console.error("Error fetching comments:", error);
-            }
-        );  
-    }
   
     const refreshComments = () => {
       fetch("/comments?postId=" + id)
@@ -117,13 +97,7 @@ function Post(props) {
                 console.error("Error fetching comments:", error);
             }
         );
-    } , []);
-
-
-  useEffect(() => {
-    isLikedByUser(id, userId);
-  }, [id, userId]);
-
+    } , [id]);
 
     useEffect(() => {
       if (isInitialMount.current) {
@@ -159,12 +133,9 @@ function Post(props) {
           console.error("Error:", error); 
         });
     } else {
-      fetch("/likes?userId=2&postId=" + id, {
+      fetch("/likes/", {
         method: "DELETE",
       })
-        .then(() => {
-          setLikeList(likeList.filter(like => like.userId !== 2));
-        })
         .catch((error) => {
           console.error("Error:", error); 
         });

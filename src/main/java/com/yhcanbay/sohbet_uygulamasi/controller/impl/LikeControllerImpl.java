@@ -46,9 +46,9 @@ public class LikeControllerImpl implements ILikeController{
     }
 
     @Override
-    @DeleteMapping(path = "/{postId}")
-    public DtoLike deleteLike(@PathVariable Long postId){
-        return likeService.deleteLike(postId);
+    @DeleteMapping()
+    public DtoLike deleteLike(@RequestParam Long userId,@RequestParam Long postId){
+        return likeService.deleteLike(userId,postId);
     }   
     
 }

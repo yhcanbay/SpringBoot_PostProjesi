@@ -42,7 +42,7 @@ function Home() {
             <React.Fragment>
                 <CssBaseline>
                     <div className="container" maxWidth="md">
-                    <PostForm userId={2} userName={"enez"} id={0} refreshPage={refreshPage}></PostForm>
+                    <PostForm userId={1} userName={"ynez"} id={0} refreshPage={refreshPage}></PostForm>
                     {postList.map(post => (
                         <Post title={post.title} text={post.text} userId={post.userId} userName={post.userName} id={post.id}></Post>
                     ))}

@@ -25,7 +25,7 @@ function Navbar() {
     }
   }
 
-    let userId = 2; // Example userId, this could be dynamic based on your application logic
+    let userId = 1; // Example userId, this could be dynamic based on your application logic
     let pathname = "/users/" + userId;
 
 
