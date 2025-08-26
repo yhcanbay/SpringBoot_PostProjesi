@@ -2,7 +2,7 @@ import Post from "../Post/Post";
 import React, { useState, useEffect,} from "react";
 import "./Home.scss";
 import CssBaseline from "@mui/material/CssBaseline";
-import PostFrame from "../Post/PostForm";
+import PostForm from "../Post/PostForm";
 
 function Home() {
 
@@ -10,12 +10,11 @@ function Home() {
     const [isLoaded, setIsLoaded] = useState(false);
     const [postList, setPostList] = useState([]);
 
-    useEffect(() => {
-    fetch("/posts")
+    const refreshPage = () => {
+        fetch("/posts")
         .then(res => res.json())
         .then(
             (result) => {
-                console.log("API result:", result);
                 setIsLoaded(true);
                 setPostList(result); // 👈 burada dikkat!
                 
@@ -25,8 +24,11 @@ function Home() {
                 setError(error);
             }
         );
-    
-    }, []);
+    }
+
+    useEffect(() => {
+        refreshPage()      
+    }, [postList]);
 
     if (error) {
         return <div>Error !!!</div>;
@@ -40,7 +42,7 @@ function Home() {
             <React.Fragment>
                 <CssBaseline>
                     <div className="container" maxWidth="md">
-                    <PostFrame title={"srsrg"} text={"srgrs"} userId={1} userName={"dthbtd"} id={0}></PostFrame>
+                    <PostForm userId={2} userName={"enez"} id={0} refreshPage={refreshPage}></PostForm>
                     {postList.map(post => (
                         <Post title={post.title} text={post.text} userId={post.userId} userName={post.userName} id={post.id}></Post>
                     ))}

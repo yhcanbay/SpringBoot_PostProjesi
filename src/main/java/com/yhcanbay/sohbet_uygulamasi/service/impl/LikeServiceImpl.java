@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.yhcanbay.sohbet_uygulamasi.dto.DtoLike;
 import com.yhcanbay.sohbet_uygulamasi.entities.Like;
@@ -28,6 +29,7 @@ public class LikeServiceImpl implements ILikeService{
     @Autowired
     IPostRepository postRepository;
 
+    @Transactional(readOnly = true)
     @Override
     public List<DtoLike> getAllLikes(Optional<Long> userId,Optional<Long> postId ){
 

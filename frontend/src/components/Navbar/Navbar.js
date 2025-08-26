@@ -25,7 +25,7 @@ function Navbar() {
     }
   }
 
-    let userId = 1; // Example userId, this could be dynamic based on your application logic
+    let userId = 2; // Example userId, this could be dynamic based on your application logic
     let pathname = "/users/" + userId;
 
 
@@ -46,7 +46,7 @@ function Navbar() {
             <Link style={styles.title} to="/">Home</Link>
           </Typography>
           <Typography variant="h6" component="div">
-          <Link style={styles.title} to = {pathname} >User 1</Link>
+          <Link style={styles.title} to = {pathname} >User</Link>
           </Typography>
         </Toolbar>
       </AppBar>

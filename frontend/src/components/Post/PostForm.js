@@ -8,12 +8,11 @@ import Collapse from '@mui/material/Collapse';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import { red } from '@mui/material/colors';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import CommentIcon from '@mui/icons-material/Comment';
 import { Link } from 'react-router-dom';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import Button from '@mui/material/Button';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 
 const PostStyle = {
     width : '100%',
@@ -60,52 +59,69 @@ const ExpandMore = styled((props) => {
 
 
 function PostFrame(props) {
-    const { title, text, userId, userName ,id} = props;
-    const [liked,setLiked] = useState(false);
+    const {userId, userName ,id , refreshPage} = props;
     const [expanded, setExpanded] = React.useState(false);
 
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
-    const [commentList, setCommentList] = useState([]); 
-  
-    useEffect(() => {
-    fetch("/comments?postId=" + id)
-        .then(res => res.json())
-        .then(
-            (result) => {
-                setIsLoaded(true);
-                setCommentList(result); // 👈 burada dikkat!
-                console.log("Comments API result:", result);
-            },
-            (error) => {
-                setIsLoaded(true);
-                setError(error);
-                console.error("Error fetching comments:", error);
-            }
-        );
-    
-    
-    }, [id]);
+    const [title, setTitle] = useState("");
+    const [text, setText] = useState("");
+    const [yayımlama, setYayımlama] = useState("Yayımla");
+    const [isAlert, setIsAlert] = useState(false);
 
   const handleExpandClick = () => {
     setExpanded(expanded);
   };
 
-  const clickLike = () => {
-    setLiked(!liked);
+  const handleText = (value) => {
+    setText(value);
   }
 
+  const handleTitle = (value) => {
+    setTitle(value); 
+  }
 
-  if (error) {
-        return <div>Error !!!</div>;
-    } else if (!isLoaded) {
-        return <div>Loading...</div>;
-    } else if (!Array.isArray(commentList)){
-        return <div>Veri format hatası</div>
-    } else {
+  const handlePost = () => {
+    savePost();
+    setExpanded(!expanded);
+    setText("");
+    setTitle("");
+    setYayımlama("Yayımlandı");
+    setIsAlert(true);
+    refreshPage();
+  }
+
+  useEffect(() => {
+    if(title !== "" || text !== ""){
+        setYayımlama("Yayımla");
+    }
+  }, [title,text]);
+
+  const savePost = () => {
+    fetch("/posts", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        title: title,
+        text: text,
+        userId: userId,
+      }),
+    })
+      .then((response) => response.json())
+      .catch((error) => {
+        console.error("Error:", error); 
+      });
+  };
+
+  
   return (
     <div style={PostStyle}>
-    <Card>
+      <Snackbar open={isAlert} autoHideDuration={6000} onClose={() => setIsAlert(false)} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+      <Alert  severity="success">Post Başarıyla Yayımlandı...</Alert>
+      </Snackbar>
+    <Card style={{borderRadius: '20px'}}>
       <CardHeader
         avatar={
           <Link style={linkStyle} to={"/users/" + userId}>
@@ -119,7 +135,9 @@ function PostFrame(props) {
         multiline
         fullWidth   
         placeholder='Title'
-        inputProps={{ maxLength: 30 }}>
+        value={title}
+        inputProps={{ maxLength: 30 }}
+        onChange={(e) => handleTitle(e.target.value)}>
         </OutlinedInput>
       />
       <CardContent>
@@ -129,35 +147,31 @@ function PostFrame(props) {
         multiline
         fullWidth   
         placeholder='Text'
-        inputProps={{ maxLength: 300 }}>
+        value={text}
+        inputProps={{ maxLength: 300 }}
+        onChange={(e) => handleText(e.target.value)}>
         </OutlinedInput>
         </Typography>
       </CardContent>
-      <CardActions disableSpacing>
-        <IconButton onClick={clickLike} aria-label="add to favorites">
-          {/* <FavoriteIcon style={liked? {color : "red"} : null} /> */}
-        </IconButton>
+      <CardActions disableSpacing>        
         <ExpandMore
           expand={expanded}
           onClick={handleExpandClick}
           aria-expanded={expanded}
           aria-label="show more"
         >
-        <Button style={{backgroundImage: "linear-gradient(45deg, #139A43, #58B09C)"}} variant="contained">Yayımla</Button>
+        <Button onClick={handlePost} style={{backgroundImage: "linear-gradient(45deg, #139A43, #58B09C)"}} variant="contained">{yayımlama}</Button>
         </ExpandMore>
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
           
-          {commentList.map(comment => (
-            <div style={commentStyle}><p>{comment.text}</p></div>
-          ))}
         </CardContent>
       </Collapse>
     </Card>
     </div>
   );
-  }
+  
 }
 
 export default PostFrame;

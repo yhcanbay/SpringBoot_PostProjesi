@@ -8,10 +8,11 @@ import Collapse from '@mui/material/Collapse';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import { red } from '@mui/material/colors';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import CommentIcon from '@mui/icons-material/Comment';
 import { Link } from 'react-router-dom';
+import Comment from '../Comment/Comment';
+import CommentForm from '../Comment/CommentForm';
 
 const PostStyle = {
     width : '100%',
@@ -60,19 +61,39 @@ function Post(props) {
     const { title, text, userId, userName ,id} = props;
     const [liked,setLiked] = useState(false);
     const [expanded, setExpanded] = React.useState(false);
-
+    const [likeList, setLikeList] = useState([]);
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
     const [commentList, setCommentList] = useState([]); 
+    const isInitialMount = React.useRef(true);
+
+    const isLikedByUser = (likes, userId) => {
+      fetch("/likes?postId=" + id + "&userId=" + userId)
+        .then(res => res.json())
+        .then(
+            (result) => {
+                setIsLoaded(true);
+                if(result == null || result.length === 0){
+                  setLiked(false);
+                }else{
+                  setLiked(true);
+                }
+            },
+            (error) => {
+                setIsLoaded(true);
+                setError(error);
+                console.error("Error fetching comments:", error);
+            }
+        );  
+    }
   
-    useEffect(() => {
-    fetch("/comments?postId=" + id)
+    const refreshComments = () => {
+      fetch("/comments?postId=" + id)
         .then(res => res.json())
         .then(
             (result) => {
                 setIsLoaded(true);
                 setCommentList(result); // 👈 burada dikkat!
-                console.log("Comments API result:", result);
             },
             (error) => {
                 setIsLoaded(true);
@@ -80,15 +101,74 @@ function Post(props) {
                 console.error("Error fetching comments:", error);
             }
         );
-    
-    
-    }, [id]);
+      }
+
+    useEffect(() => {
+      fetch("/likes?postId=" + id)
+        .then(res => res.json())
+        .then(
+            (result) => {
+                setIsLoaded(true);
+                setLikeList(result); // 👈 burada dikkat!
+            },
+            (error) => {
+                setIsLoaded(true);
+                setError(error);
+                console.error("Error fetching comments:", error);
+            }
+        );
+    } , []);
+
+
+  useEffect(() => {
+    isLikedByUser(id, userId);
+  }, [id, userId]);
+
+
+    useEffect(() => {
+      if (isInitialMount.current) {
+        isInitialMount.current = false;
+      } else {
+        refreshComments();
+      }    
+    }, [commentList]);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
+    refreshComments();
+    console.log(commentList);
   };
 
   const clickLike = () => {
+    if(!liked){
+      fetch("/likes", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: 2,
+          postId: id,
+        }),
+      })
+        .then((response) => response.json())
+        .then((newLike) => {
+          setLikeList([...likeList, newLike]);
+        })
+        .catch((error) => {
+          console.error("Error:", error); 
+        });
+    } else {
+      fetch("/likes?userId=2&postId=" + id, {
+        method: "DELETE",
+      })
+        .then(() => {
+          setLikeList(likeList.filter(like => like.userId !== 2));
+        })
+        .catch((error) => {
+          console.error("Error:", error); 
+        });
+    }
     setLiked(!liked);
   }
 
@@ -102,7 +182,7 @@ function Post(props) {
     } else {
   return (
     <div style={PostStyle}>
-    <Card>
+    <Card style={{borderRadius: '40px'}}>
       <CardHeader
         avatar={
           <Link style={linkStyle} to={"/users/" + userId}>
@@ -118,9 +198,9 @@ function Post(props) {
             {text}
         </Typography>
       </CardContent>
-      <CardActions disableSpacing>
+      <CardActions disableSpacing style={{borderBottom : '1px solid #ccc', marginBottom : '10px'}}>
         <IconButton onClick={clickLike} aria-label="add to favorites">
-          <FavoriteIcon style={liked? {color : "red"} : null} />
+          <FavoriteIcon style={liked? {color : "red"} : null} /><h5>{" " + likeList.length}</h5>
         </IconButton>
         <ExpandMore
           expand={expanded}
@@ -133,9 +213,11 @@ function Post(props) {
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          
+          <h4 style={{textAlign : "left"}}>Yorum Yap</h4>
+          <CommentForm userId={2} userName={"enez"} id={id} refreshComments={refreshComments}></CommentForm>
+          <h4 style={{textAlign : "left"}}>Yorumlar</h4>
           {commentList.map(comment => (
-            <div style={commentStyle}><p>{comment.text}</p></div>
+            <Comment text={comment.text} userName={comment.userName} userId={comment.userId} ></Comment>
           ))}
         </CardContent>
       </Collapse>
