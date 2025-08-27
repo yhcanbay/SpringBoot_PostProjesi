@@ -1,4 +1,4 @@
-import React, {  useEffect, useState } from 'react';
+import React, {  use, useEffect, useState } from 'react';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -66,6 +66,30 @@ function Post(props) {
     const [isLoaded, setIsLoaded] = useState(false);
     const [commentList, setCommentList] = useState([]); 
     const isInitialMount = React.useRef(true);
+
+    const isLikedByUser = (likes, userId) => {
+      fetch("/likes?postId=" + id + "&userId=" + 1)
+        .then(res => res.json())
+        .then(
+            (result) => {
+                setIsLoaded(true);
+                if(result == null || result.length === 0){
+                  setLiked(false);
+                }else{
+                  setLiked(true);
+                }
+            },
+            (error) => {
+                setIsLoaded(true);
+                setError(error);
+                console.error("Error fetching comments:", error);
+            }
+        );  
+    }
+
+    useEffect(() => {
+    isLikedByUser(id, userId);
+  }, [id, userId]);
   
     const refreshComments = () => {
       fetch("/comments?postId=" + id)
@@ -121,7 +145,7 @@ function Post(props) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          userId: 2,
+          userId: userId,
           postId: id,
         }),
       })
@@ -133,13 +157,20 @@ function Post(props) {
           console.error("Error:", error); 
         });
     } else {
-      fetch("/likes/", {
+      fetch("/likes?userId=" + userId +"&postId=" + id, {
         method: "DELETE",
       })
+      .then((response) => {
+          if (response.ok) {
+            setLikeList(likeList.filter((like) => like.userId !== userId || like.postId !== id));
+          } else {
+            console.error("Failed to delete like");
+          }})
         .catch((error) => {
           console.error("Error:", error); 
         });
     }
+
     setLiked(!liked);
   }
 
@@ -185,7 +216,7 @@ function Post(props) {
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
           <h4 style={{textAlign : "left"}}>Yorum Yap</h4>
-          <CommentForm userId={2} userName={"enez"} id={id} refreshComments={refreshComments}></CommentForm>
+          <CommentForm userId={userId} userName={"ynez"} id={id} refreshComments={refreshComments}></CommentForm>
           <h4 style={{textAlign : "left"}}>Yorumlar</h4>
           {commentList.map(comment => (
             <Comment text={comment.text} userName={comment.userName} userId={comment.userId} ></Comment>

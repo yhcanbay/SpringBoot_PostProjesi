@@ -97,7 +97,7 @@ public class LikeServiceImpl implements ILikeService{
         return null;
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     @Override
     public DtoLike deleteLike(Long userId,Long postId){
 
@@ -108,6 +108,10 @@ public class LikeServiceImpl implements ILikeService{
             DtoLike dtoLike = new DtoLike(like.getId(),like.getUser().getId(),like.getPost().getId());
 
             likeRepository.delete(like);
+
+            boolean exists = likeRepository.existsById(like.getId());
+            System.out.println("Silindi mi? " + !exists);
+
 
             System.out.println(like);
 
