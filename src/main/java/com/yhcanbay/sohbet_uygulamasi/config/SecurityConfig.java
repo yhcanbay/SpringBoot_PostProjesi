@@ -1,4 +1,4 @@
-package com.yhcanbay.sohbet_uygulamasi.security;
+package com.yhcanbay.sohbet_uygulamasi.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
