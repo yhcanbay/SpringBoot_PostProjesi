@@ -22,7 +22,7 @@ public class JwtUserDetails implements UserDetails{
     public Long id;
     private String username;
     private String password;
-    private Collection<? extends GrantedAuthority > authorities;
+    private Collection<? extends GrantedAuthority > authorities; // GrantedAuthority classının extend eden classlardan oluşan bir collection
 
     public static JwtUserDetails create(User user){
         List<GrantedAuthority> authoritiesList = new ArrayList<>();

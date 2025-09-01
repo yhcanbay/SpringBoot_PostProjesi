@@ -28,7 +28,7 @@ public class JwtTokenProvider {
     private Long EXPIRES_IN;
 
     public String generateJwtToken(Authentication auth){
-        JwtUserDetails userDetails = (JwtUserDetails) auth.getPrincipal();
+        JwtUserDetails userDetails = (JwtUserDetails) auth.getPrincipal(); 
         Date expireDate = new Date(new Date().getTime() + EXPIRES_IN);
         Key key = Keys.hmacShaKeyFor(APP_SECRET.getBytes(StandardCharsets.UTF_8));
 

@@ -34,9 +34,16 @@ public class AuthControllerImpl {
     
     @PostMapping("/login")
     public String login(@RequestBody DtoUserRequest loginRequest){
-        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(loginRequest.getUserName(),loginRequest.getPassword());
-        Authentication auth = authenticationManager.authenticate(authToken);
+        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(loginRequest.getUserName(),loginRequest.getPassword()); 
+        Authentication auth = authenticationManager.authenticate(authToken); 
+        // ↑ ↑ ↑ userDetailsService ve PasswordEncoder kullanarak bilgilerin doğruluğunu test eder. Yanlışlık durumunda burda hata verilir.
+        // - Bu auth nesnesi artık:
+        // - principal → kullanıcı bilgileri (UserDetails)
+        // - authorities → roller/izinler
+        // - authenticated = true
+        // içeriyor.
         SecurityContextHolder.getContext().setAuthentication(auth);
+        // ↑ ↑ ↑ bu tanımlama ile başka bir classda SecurityContextHolder.getContext().getAuthentication() ile kullanıcıya ulaşılabilir
         String jwtToken = JwtTokenProvider.generateJwtToken(auth);
         return "Bearer " + jwtToken;
     }
