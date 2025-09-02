@@ -124,12 +124,8 @@ function Post(props) {
     } , [id]);
 
     useEffect(() => {
-      if (isInitialMount.current) {
-        isInitialMount.current = false;
-      } else {
-        refreshComments();
-      }    
-    }, [commentList]);
+  refreshComments(); 
+}, [id]); 
 
   const handleExpandClick = () => {
     setExpanded(!expanded);

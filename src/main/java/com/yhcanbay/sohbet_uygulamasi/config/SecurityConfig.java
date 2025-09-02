@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -22,15 +23,12 @@ import org.springframework.web.filter.CorsFilter;
 
 import com.yhcanbay.sohbet_uygulamasi.security.JwtAuthenticationEntryPoint;
 import com.yhcanbay.sohbet_uygulamasi.security.JwtAuthenticationFilter;
-import com.yhcanbay.sohbet_uygulamasi.service.impl.UserDetailsServiceImpl;
 
 import lombok.AllArgsConstructor;
 @Configuration
 @EnableWebSecurity
 @AllArgsConstructor
 public class SecurityConfig {
-
-    private UserDetailsServiceImpl userDetailsService;
 
     private JwtAuthenticationEntryPoint handler;
 
@@ -48,7 +46,7 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(
         UserDetailsService userDetailsService,
         PasswordEncoder passwordEncoder
-    ) throws Exception {
+    ) {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider(userDetailsService);
         provider.setPasswordEncoder(passwordEncoder);
         return new ProviderManager(provider);
@@ -80,6 +78,9 @@ public class SecurityConfig {
                 .exceptionHandling(ex -> ex.authenticationEntryPoint(handler))
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(requests -> requests
+                        .requestMatchers(HttpMethod.GET,"/posts","/posts/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/likes" , "/likes/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/comments" , "/comments/**").permitAll()
                         .requestMatchers("/auth/**").permitAll()
                         .anyRequest().authenticated())
                         

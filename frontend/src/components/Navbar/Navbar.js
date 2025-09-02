@@ -6,6 +6,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 function Navbar() {
 
@@ -25,9 +26,7 @@ function Navbar() {
     }
   }
 
-    let userId = 1; // Example userId, this could be dynamic based on your application logic
-    let pathname = "/users/" + userId;
-
+    let pathname = "/users/" + localStorage.getItem("currentUser");
 
     return (
     <Box sx={{ flexGrow: 1 }}>
@@ -46,7 +45,19 @@ function Navbar() {
             <Link style={styles.title} to="/">Home</Link>
           </Typography>
           <Typography variant="h6" component="div">
-          <Link style={styles.title} to = {pathname} >User</Link>
+            {localStorage.getItem("currentUser") != null ?
+              <div>
+              <LogoutIcon style={{cursor: 'pointer'}} onClick={() => {
+                localStorage.removeItem("token");
+                localStorage.removeItem("currentUser");
+                localStorage.removeItem("userName");
+                window.location.reload();
+              }}/>
+              <Link style={styles.title} to={pathname}>Profile</Link>
+              </div>
+              :
+              <Link style={styles.title} to="/auth">Login/Register</Link>
+            }
           </Typography>
         </Toolbar>
       </AppBar>

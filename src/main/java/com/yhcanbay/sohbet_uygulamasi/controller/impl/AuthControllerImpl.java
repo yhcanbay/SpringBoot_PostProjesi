@@ -1,5 +1,6 @@
 package com.yhcanbay.sohbet_uygulamasi.controller.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -12,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.yhcanbay.sohbet_uygulamasi.dto.DtoAuth;
 import com.yhcanbay.sohbet_uygulamasi.dto.DtoUser;
 import com.yhcanbay.sohbet_uygulamasi.dto.DtoUserRequest;
+import com.yhcanbay.sohbet_uygulamasi.entities.User;
 import com.yhcanbay.sohbet_uygulamasi.security.JwtTokenProvider;
 import com.yhcanbay.sohbet_uygulamasi.service.impl.UserServiceImpl;
 
@@ -30,10 +33,11 @@ public class AuthControllerImpl {
 
     private UserServiceImpl userService;
 
+    @Autowired
     private PasswordEncoder passwordEncoder;
     
     @PostMapping("/login")
-    public String login(@RequestBody DtoUserRequest loginRequest){
+    public DtoAuth login(@RequestBody DtoUserRequest loginRequest){
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(loginRequest.getUserName(),loginRequest.getPassword()); 
         Authentication auth = authenticationManager.authenticate(authToken); 
         // ↑ ↑ ↑ userDetailsService ve PasswordEncoder kullanarak bilgilerin doğruluğunu test eder. Yanlışlık durumunda burda hata verilir.
@@ -45,19 +49,25 @@ public class AuthControllerImpl {
         SecurityContextHolder.getContext().setAuthentication(auth);
         // ↑ ↑ ↑ bu tanımlama ile başka bir classda SecurityContextHolder.getContext().getAuthentication() ile kullanıcıya ulaşılabilir
         String jwtToken = JwtTokenProvider.generateJwtToken(auth);
-        return "Bearer " + jwtToken;
+        User user = userService.findByUsername(loginRequest.getUserName());
+        DtoAuth dtoAuth = new DtoAuth("Bearer "+jwtToken,user.getId());
+        return dtoAuth;
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody DtoUserRequest registerRequest){
+    public ResponseEntity<DtoAuth> register(@RequestBody DtoUserRequest registerRequest){
         if(userService.findByUsername(registerRequest.getUserName()) != null){
-            return new ResponseEntity<>("Username already in use.",HttpStatus.BAD_REQUEST);
+            DtoAuth dtoAuth = new DtoAuth();
+            dtoAuth.setMassage("Username already in use.");
+            return new ResponseEntity<>(dtoAuth,HttpStatus.BAD_REQUEST);
         }
 
         DtoUser user = new DtoUser();
         user.setUserName(registerRequest.getUserName());
         user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
         userService.createUser(user);
-        return new ResponseEntity<>("User sucsessfully registered", HttpStatus.CREATED);
+        DtoAuth dtoAuth = new DtoAuth();
+        dtoAuth.setMassage("User sucsessfully registered");
+        return new ResponseEntity<>(dtoAuth, HttpStatus.CREATED);
     }
 }
