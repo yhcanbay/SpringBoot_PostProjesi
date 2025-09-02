@@ -46,7 +46,7 @@ function Navbar() {
           </Typography>
           <Typography variant="h6" component="div">
             {localStorage.getItem("currentUser") != null ?
-              <div>
+              <div style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
               <LogoutIcon style={{cursor: 'pointer'}} onClick={() => {
                 localStorage.removeItem("token");
                 localStorage.removeItem("currentUser");

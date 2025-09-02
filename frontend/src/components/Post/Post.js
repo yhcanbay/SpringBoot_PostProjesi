@@ -32,6 +32,12 @@ const commentStyle = {
     borderRadius: '20px',
 }
 
+const likeStyle = {
+  display: 'flex',
+  alignItems: 'center',
+  gap: '5px',
+}
+
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
@@ -68,7 +74,7 @@ function Post(props) {
     const isInitialMount = React.useRef(true);
 
     const isLikedByUser = (likes, userId) => {
-      fetch("/likes?postId=" + id + "&userId=" + 1)
+      fetch("/likes?postId=" + id + "&userId=" + userId)
         .then(res => res.json())
         .then(
             (result) => {
@@ -139,6 +145,7 @@ function Post(props) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Authorization" : localStorage.getItem("token"),
         },
         body: JSON.stringify({
           userId: userId,
@@ -148,6 +155,7 @@ function Post(props) {
         .then((response) => response.json())
         .then((newLike) => {
           setLikeList([...likeList, newLike]);
+          setLiked(!liked);
         })
         .catch((error) => {
           console.error("Error:", error); 
@@ -155,10 +163,14 @@ function Post(props) {
     } else {
       fetch("/likes?userId=" + userId +"&postId=" + id, {
         method: "DELETE",
+        headers: {
+          "Authorization" : localStorage.getItem("token"),
+        }
       })
       .then((response) => {
           if (response.ok) {
             setLikeList(likeList.filter((like) => like.userId !== userId || like.postId !== id));
+            setLiked(!liked);
           } else {
             console.error("Failed to delete like");
           }})
@@ -166,8 +178,6 @@ function Post(props) {
           console.error("Error:", error); 
         });
     }
-
-    setLiked(!liked);
   }
 
 
@@ -198,7 +208,9 @@ function Post(props) {
       </CardContent>
       <CardActions disableSpacing style={{borderBottom : '1px solid #ccc', marginBottom : '10px'}}>
         <IconButton onClick={clickLike} aria-label="add to favorites">
-          <FavoriteIcon style={liked? {color : "red"} : null} /><h5>{" " + likeList.length}</h5>
+          {localStorage.getItem("currentUser") == null ? 
+          <div style={likeStyle}><FavoriteIcon /><h5>{" " + likeList.length}</h5></div> :
+          <div style={likeStyle}><FavoriteIcon style={liked ? {color : "red"} : null} /><h5>{" " + likeList.length}</h5></div>}
         </IconButton>
         <ExpandMore
           expand={expanded}
@@ -211,8 +223,10 @@ function Post(props) {
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
+          {localStorage.getItem("currentUser") == null ? <h4 style={{textAlign : "left"}}>Yorum yapmak icin giris yapiniz</h4> :
+          <div>
           <h4 style={{textAlign : "left"}}>Yorum Yap</h4>
-          <CommentForm userId={userId} userName={"ynez"} id={id} refreshComments={refreshComments}></CommentForm>
+          <CommentForm userId={userId} userName={"ynez"} id={id} refreshComments={refreshComments}></CommentForm></div>}
           <h4 style={{textAlign : "left"}}>Yorumlar</h4>
           {commentList.map(comment => (
             <Comment text={comment.text} userName={comment.userName} userId={comment.userId} ></Comment>

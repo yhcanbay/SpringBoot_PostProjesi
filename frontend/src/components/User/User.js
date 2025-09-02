@@ -2,7 +2,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 
 function User() {
-    let userId = 1;
+    let userId = localStorage.getItem("currentUser");
 
     return (
         <div>

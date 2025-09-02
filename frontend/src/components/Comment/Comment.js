@@ -27,7 +27,10 @@ function Comment(props) {
             avatar={
               <Link style={linkStyle} to={"/users/" + userId}>
               <Avatar sx={{ backgroundImage: "linear-gradient(45deg, #139A43, #58B09C)" }} aria-label="recipe">
-                Y
+                {userName && userName.length > 0
+  ? userName.charAt(0).toUpperCase()
+  : "?"}
+
               </Avatar>
               </Link>
             }
