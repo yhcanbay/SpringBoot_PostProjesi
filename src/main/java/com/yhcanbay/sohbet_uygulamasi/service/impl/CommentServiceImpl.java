@@ -52,6 +52,7 @@ public class CommentServiceImpl implements ICommentService{
             dtoComment.setText(comment.getText());
             dtoComment.setPostId(comment.getPost().getId());
             dtoComment.setUserId(comment.getUser().getId());
+            dtoComment.setUserName(comment.getUser().getUserName());
 
             dtoList.add(dtoComment);
         }
@@ -113,7 +114,7 @@ public class CommentServiceImpl implements ICommentService{
 
             commentRepository.save(comment);
 
-            DtoComment updatedComment = new DtoComment(comment.getUser().getId(), comment.getPost().getId(),comment.getText());
+            DtoComment updatedComment = new DtoComment(comment.getUser().getId(), comment.getPost().getId(),comment.getText(),comment.getUser().getUserName());
 
             return updatedComment;
         }
@@ -128,7 +129,7 @@ public class CommentServiceImpl implements ICommentService{
         if(optional.isPresent()){
             Comment comment = optional.get();
 
-            DtoComment deletedComment = new DtoComment(comment.getUser().getId(), comment.getPost().getId(),comment.getText());
+            DtoComment deletedComment = new DtoComment(comment.getUser().getId(), comment.getPost().getId(),comment.getText(),comment.getUser().getUserName());
         
             commentRepository.delete(comment);
 

@@ -12,4 +12,6 @@ public class DtoComment {
     private Long userId;
     private Long postId;
     private String text;
+    private String userName;
+    
 }

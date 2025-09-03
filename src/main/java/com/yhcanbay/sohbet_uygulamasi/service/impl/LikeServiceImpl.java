@@ -89,7 +89,9 @@ public class LikeServiceImpl implements ILikeService{
             like.setPost(post.get());
             like.setUser(user.get());
 
-            likeRepository.save(like);
+            like = likeRepository.save(like);
+
+            dtoLike = new DtoLike(like.getId(),like.getUser().getId(),like.getPost().getId());
 
             return dtoLike;
         }
