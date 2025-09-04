@@ -28,6 +28,7 @@ public class UserServiceImpl implements IUserService {
         User newUser = new User();
 
         BeanUtils.copyProperties(user, newUser);
+        newUser.setAvatar_id(6);
 
         userRepository.save(newUser);
 
@@ -57,7 +58,8 @@ public class UserServiceImpl implements IUserService {
 
         if(optional.isPresent()){
             User user = optional.get();
-            user.setPassword(dtoUser.getPassword());
+            
+            user.setAvatar_id(dtoUser.getAvatar_id());
             user.setUserName(dtoUser.getUserName());
 
             userRepository.save(user);
@@ -66,6 +68,15 @@ public class UserServiceImpl implements IUserService {
         }
 
         return null;
+    }
+
+    @Override
+    public int setAvatarById(Long userId,int avatar){
+        Optional<User> optional = userRepository.findById(userId);
+        if(optional.isPresent()){
+            return optional.get().getAvatar_id();
+        }
+        return 0;
     }
 
     @Override

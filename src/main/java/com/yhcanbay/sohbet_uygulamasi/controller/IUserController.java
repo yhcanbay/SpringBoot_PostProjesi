@@ -16,4 +16,6 @@ public interface IUserController {
     public DtoUser updateOneUser(Long id, DtoUser dtoUser);
 
     public DtoUser deleteOneUser(Long id);
+
+    int setAvatarById(Long userId,int avatar);
 }
