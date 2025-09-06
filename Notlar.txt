@@ -1,2 +1,3 @@
 materialui ı npm ile laptopa yükle +
-deleteLike işlemi için DtoLike'a LikeId yi ekle -
+deleteLike işlemi için DtoLike'a LikeId yi ekle +
+Her userın kendi ayfasında nicknami görünecek -

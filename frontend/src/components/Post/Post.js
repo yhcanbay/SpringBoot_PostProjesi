@@ -43,7 +43,7 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-function Post({ title, text, userId, userName, id }) {
+function Post({ title, text, userId, userName, id ,postUserId}) {
   const [liked, setLiked] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const [likeList, setLikeList] = useState([]);
@@ -177,7 +177,7 @@ function Post({ title, text, userId, userName, id }) {
       <Card style={{ borderRadius: '40px' }}>
         <CardHeader
           avatar={
-            <Link style={linkStyle} to={`/users/${userId}`}>
+            <Link style={linkStyle} to={`/users/${postUserId}`}>
               <Avatar
                 sx={{ background: "linear-gradient(45deg, #139A43, #58B09C)", color: "white" }}
                 aria-label="recipe"

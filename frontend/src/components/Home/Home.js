@@ -45,7 +45,7 @@ function Home() {
                     {localStorage.getItem("currentUser") == null ? "" : 
                     <PostForm userId={localStorage.getItem("currentUser")} userName={localStorage.getItem("userName")} id={0} refreshPage={refreshPage}></PostForm>}
                     {postList.map(post => (
-                        <Post title={post.title} text={post.text} userId={localStorage.getItem("currentUser")==null ? 0 : localStorage.getItem("currentUser")} userName={post.userName} id={post.id}></Post>
+                        <Post title={post.title} text={post.text} userId={localStorage.getItem("currentUser")==null ? 0 : localStorage.getItem("currentUser")} userName={post.userName} id={post.id} postUserId={post.userId}></Post>
                     ))}
                     </div>
                 </CssBaseline>

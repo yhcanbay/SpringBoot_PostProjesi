@@ -1,5 +1,6 @@
 package com.yhcanbay.sohbet_uygulamasi.entities;
 
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -31,4 +32,6 @@ public class Post {
     @Lob
     @Column(columnDefinition = "TEXT")
     private String text;
+
+    private LocalDateTime crateDate;
 }

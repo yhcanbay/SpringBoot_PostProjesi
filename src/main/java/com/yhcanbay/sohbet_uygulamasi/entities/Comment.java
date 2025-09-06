@@ -1,5 +1,7 @@
 package com.yhcanbay.sohbet_uygulamasi.entities;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -34,4 +36,6 @@ public class Comment {
     @Column(columnDefinition = "TEXT")
     @Basic(fetch = FetchType.EAGER)
     private String text;
+
+    private LocalDateTime createDate;
 }

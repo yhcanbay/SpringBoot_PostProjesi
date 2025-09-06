@@ -3,6 +3,7 @@ package com.yhcanbay.sohbet_uygulamasi.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.time.LocalDateTime;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,6 +94,7 @@ public class CommentServiceImpl implements ICommentService{
             comment.setPost(optPost.get());
             comment.setUser(optUser.get());
             comment.setText(dtoComment.getText());
+            comment.setCreateDate(LocalDateTime.now());
 
             commentRepository.save(comment);
 

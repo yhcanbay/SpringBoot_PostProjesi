@@ -68,16 +68,7 @@ public class UserServiceImpl implements IUserService {
         }
 
         return null;
-    }
-
-    @Override
-    public int setAvatarById(Long userId,int avatar){
-        Optional<User> optional = userRepository.findById(userId);
-        if(optional.isPresent()){
-            return optional.get().getAvatar_id();
-        }
-        return 0;
-    }
+    }    
 
     @Override
     public DtoUser deleteOneUser(Long id) {

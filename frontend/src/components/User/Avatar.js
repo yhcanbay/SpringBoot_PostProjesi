@@ -25,9 +25,7 @@ const modalStyle = {
   p: 4,
 };
 
-function Avatar() {
-
-    let userId = localStorage.getItem("currentUser");
+function Avatar({userId}) {
 
     const [img, setImg] = useState("");
     const [selectedValue, setSelectedValue] = useState("");
@@ -111,11 +109,12 @@ function Avatar() {
             <p>Kullanıcı ID: {userId}</p>
           </Typography>
         </CardContent>
+        {localStorage.getItem("currentUser") != userId ? <div></div> :
       <CardActions>
         <Button onClick={handleOpen} size="small" color="primary">
           Avatarı Değiştir
         </Button>
-      </CardActions>
+      </CardActions>}
     </Card>
 
     <Modal
@@ -162,7 +161,7 @@ function Avatar() {
                 </div>
             </RadioGroup>
           </FormControl>
-          <Button style={{marginTop:"20px",marginRight:"20px"}} onClick={handleClose}>Close</Button>
+          <Button style={{marginTop:"20px",marginRight:"20px"}} onClick={handleClose}>Kaydet</Button>
         </Box>
       </Modal>
         </div>

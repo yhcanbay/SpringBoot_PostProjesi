@@ -1,5 +1,6 @@
 package com.yhcanbay.sohbet_uygulamasi.service.impl;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -83,7 +84,7 @@ public class PostServiceImpl implements IPostService{
             // Handle the case where the user does not exist
             throw new RuntimeException("User not found with ID: " + newPost.getUserId());
         }
-
+        post.setCrateDate(LocalDateTime.now());
         post = postRepository.save(post);
 
         return newPost;
