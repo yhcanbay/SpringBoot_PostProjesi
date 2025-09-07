@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import Avatar from "./Avatar";
 import { useParams } from "react-router-dom";
-
+import UserActivity from "./UserActivity";
 
 function User() {
 
@@ -9,9 +9,18 @@ function User() {
 
     return (
         <div>
-          <h1>Kullanıcı Sayfası</h1>
+          <h1>Kullanıcı Profili</h1>
+        <div
+        style={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            width: '100%',
+          }}
+        >
           <Avatar userId = {userId} ></Avatar>
-        </div>
+          <UserActivity></UserActivity>
+        </div></div>
     );
 }
 

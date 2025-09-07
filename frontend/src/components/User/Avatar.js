@@ -91,6 +91,7 @@ function Avatar({userId}) {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
+            width: '30%',
           }}
         >
             
@@ -109,7 +110,7 @@ function Avatar({userId}) {
             <p>Kullanıcı ID: {userId}</p>
           </Typography>
         </CardContent>
-        {localStorage.getItem("currentUser") != userId ? <div></div> :
+        {localStorage.getItem("currentUser") !== userId ? <div></div> :
       <CardActions>
         <Button onClick={handleOpen} size="small" color="primary">
           Avatarı Değiştir
