@@ -54,4 +54,9 @@ public class UserControllerImpl implements IUserController {
         return userService.deleteOneUser(userid);
     }
 
+    @GetMapping(path = "/activity/{userId}")
+    @Override
+    public List<Object> getUserActivities(@PathVariable Long userId){
+        return userService.getUserActivities(userId);
+    }
 }

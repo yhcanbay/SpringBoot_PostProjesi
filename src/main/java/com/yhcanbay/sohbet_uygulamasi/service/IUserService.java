@@ -15,5 +15,9 @@ public interface IUserService {
     public DtoUser updateOneUser(Long id, DtoUser dtoUser);
 
     public DtoUser deleteOneUser(Long id);
+
+    User findByUsername(String userName);
+
+    List<Object> getUserActivities(Long userId);
     
 }

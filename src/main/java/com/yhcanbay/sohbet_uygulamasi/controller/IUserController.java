@@ -17,4 +17,6 @@ public interface IUserController {
 
     public DtoUser deleteOneUser(Long id);
 
+    List<Object> getUserActivities(Long userId);
+
 }
