@@ -33,5 +33,5 @@ public class Post {
     @Column(columnDefinition = "TEXT")
     private String text;
 
-    private LocalDateTime crateDate;
+    private LocalDateTime createDate;
 }

@@ -28,6 +28,7 @@ const modalStyle = {
 function Avatar({userId}) {
 
     const [img, setImg] = useState("");
+    const [userName, setUserName] = useState("");
     const [selectedValue, setSelectedValue] = useState("");
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
@@ -49,6 +50,7 @@ function Avatar({userId}) {
         }).then((response) => response.json())
         .then((result) => {
             setImg("/avatars/avatar" + result.avatar_id + ".png");
+            setUserName(result.userName);
         })
         .catch((error) => {
             console.error("Error:", error);
@@ -57,7 +59,7 @@ function Avatar({userId}) {
 
     React.useEffect(() => {
         getUserAvatar();
-    }, []);
+    }, [img, userName]);
 
 
     const handleAvatarChange = async () => {
@@ -104,7 +106,7 @@ function Avatar({userId}) {
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
-            {localStorage.getItem("userName")}
+            {userName}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }}>
             <p>Kullanıcı ID: {userId}</p>

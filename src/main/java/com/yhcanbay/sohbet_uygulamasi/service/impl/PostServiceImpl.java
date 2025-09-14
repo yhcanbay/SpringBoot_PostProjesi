@@ -84,7 +84,7 @@ public class PostServiceImpl implements IPostService{
             // Handle the case where the user does not exist
             throw new RuntimeException("User not found with ID: " + newPost.getUserId());
         }
-        post.setCrateDate(LocalDateTime.now());
+        post.setCreateDate(LocalDateTime.now());
         post = postRepository.save(post);
 
         return newPost;
