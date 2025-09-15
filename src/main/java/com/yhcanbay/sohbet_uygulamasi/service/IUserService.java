@@ -2,6 +2,7 @@ package com.yhcanbay.sohbet_uygulamasi.service;
 
 import java.util.List;
 
+import com.yhcanbay.sohbet_uygulamasi.dto.DtoComment;
 import com.yhcanbay.sohbet_uygulamasi.dto.DtoUser;
 import com.yhcanbay.sohbet_uygulamasi.entities.User;
 
@@ -18,6 +19,6 @@ public interface IUserService {
 
     User findByUsername(String userName);
 
-    List<Object> getUserActivities(Long userId);
+    List<DtoComment> getUserActivities(Long userId);
     
 }

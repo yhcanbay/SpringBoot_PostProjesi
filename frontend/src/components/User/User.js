@@ -19,7 +19,7 @@ function User() {
           }}
         >
           <Avatar userId = {userId} ></Avatar>
-          <UserActivity></UserActivity>
+          <UserActivity userId={userId}></UserActivity>
         </div></div>
     );
 }

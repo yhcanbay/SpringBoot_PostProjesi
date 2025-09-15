@@ -1,7 +1,5 @@
 materialui ı npm ile laptopa yükle +
 deleteLike işlemi için DtoLike'a LikeId yi ekle +
-Her userın kendi ayfasında nicknami görünecek -
+Her userın kendi sayfasında nicknamei görünecek +
 
-
-Comments : [Comment(id=8, user=User(id=5, userName=bakiA, password=$2a$10$nWJeXzqZOKXGcldkugba5O6q4G5xmsFOSep/jHWU6.8El3UIWQ.Y2, avatar_id=5), post=Post(id=4, user=User(id=5, userName=bakiA, password=$2a$10$nWJeXzqZOKXGcldkugba5O6q4G5xmsFOSep/jHWU6.8El3UIWQ.Y2, avatar_id=5), title=tarihli deneme, text=tarihli atılmış ilk posttur !!!!, createDate=2025-09-07T09:58:28.201836), text=tarihli atılmış ilk commenttir !!!!, createDate=2025-09-07T10:05:46.168764)]
-Likes : [Like(id=21, user=User(id=5, userName=bakiA, password=$2a$10$nWJeXzqZOKXGcldkugba5O6q4G5xmsFOSep/jHWU6.8El3UIWQ.Y2, avatar_id=5), post=Post(id=4, user=User(id=5, userName=bakiA, password=$2a$10$nWJeXzqZOKXGcldkugba5O6q4G5xmsFOSep/jHWU6.8El3UIWQ.Y2, avatar_id=5), title=tarihli deneme, text=tarihli atılmış ilk posttur !!!!, createDate=2025-09-07T09:58:28.201836))]
+başkasının profilindeyken navbarda profile bastığında avatar page değişmiyor düzeltilmeli -

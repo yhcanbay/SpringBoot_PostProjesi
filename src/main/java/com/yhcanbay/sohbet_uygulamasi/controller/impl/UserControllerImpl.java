@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.yhcanbay.sohbet_uygulamasi.controller.IUserController;
+import com.yhcanbay.sohbet_uygulamasi.dto.DtoComment;
 import com.yhcanbay.sohbet_uygulamasi.dto.DtoUser;
 import com.yhcanbay.sohbet_uygulamasi.entities.User;
 import com.yhcanbay.sohbet_uygulamasi.service.impl.UserServiceImpl;
@@ -56,7 +57,7 @@ public class UserControllerImpl implements IUserController {
 
     @GetMapping(path = "/activity/{userId}")
     @Override
-    public List<Object> getUserActivities(@PathVariable Long userId){
+    public List<DtoComment> getUserActivities(@PathVariable Long userId){
         return userService.getUserActivities(userId);
     }
 }

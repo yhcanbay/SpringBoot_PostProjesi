@@ -10,10 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.yhcanbay.sohbet_uygulamasi.dto.DtoComment;
-import com.yhcanbay.sohbet_uygulamasi.dto.DtoLike;
 import com.yhcanbay.sohbet_uygulamasi.dto.DtoUser;
 import com.yhcanbay.sohbet_uygulamasi.entities.Comment;
-import com.yhcanbay.sohbet_uygulamasi.entities.Like;
 import com.yhcanbay.sohbet_uygulamasi.entities.User;
 import com.yhcanbay.sohbet_uygulamasi.repository.ICommentRepository;
 import com.yhcanbay.sohbet_uygulamasi.repository.ILikeRepository;
@@ -114,7 +112,7 @@ public class UserServiceImpl implements IUserService {
 
     @Transactional(readOnly = true)
     @Override
-    public List<Object> getUserActivities(Long userId){
+    public List<DtoComment> getUserActivities(Long userId){
 
         List<Long> postIds = postRepository.findTopByUserId(userId);
 
@@ -128,18 +126,7 @@ public class UserServiceImpl implements IUserService {
             dtoComments.add(dtoComment);
         }
 
-        List<Like> likes = likeRepository.findUserLikesByPostId(postIds);
-        List<DtoLike> dtoLikes = new ArrayList<>();
-
-        for(Like l : likes){
-            DtoLike dtoLİke = new DtoLike(l.getId(), l.getUser().getId(), l.getPost().getId());
-            dtoLikes.add(dtoLİke);
-        }
-        
-        System.out.println("Comments : "+dtoComments);
-        System.out.println("Likes : "+dtoLikes);
-
-        return null;
+        return dtoComments;
     }
 
 }

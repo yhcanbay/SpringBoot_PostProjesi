@@ -2,6 +2,7 @@ package com.yhcanbay.sohbet_uygulamasi.controller;
 
 import java.util.List;
 
+import com.yhcanbay.sohbet_uygulamasi.dto.DtoComment;
 import com.yhcanbay.sohbet_uygulamasi.dto.DtoUser;
 import com.yhcanbay.sohbet_uygulamasi.entities.User;
 
@@ -17,6 +18,6 @@ public interface IUserController {
 
     public DtoUser deleteOneUser(Long id);
 
-    List<Object> getUserActivities(Long userId);
+    List<DtoComment> getUserActivities(Long userId);
 
 }

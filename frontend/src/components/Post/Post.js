@@ -68,7 +68,7 @@ function Post({ title, text, userId, userName, id ,postUserId}) {
         }
       );
   };
-
+ 
   // Yorumları yenile
   const refreshComments = () => {
     fetch(`/comments?postId=${id}`)
