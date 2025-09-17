@@ -39,7 +39,7 @@ function CommentForm(props) {
     }
   }, [title,text]);
 
-  const savePost = () => {
+  const savePost = async () => {
     fetch("/comments", {
       method: "POST",
       headers: {

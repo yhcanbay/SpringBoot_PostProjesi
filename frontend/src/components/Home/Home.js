@@ -10,13 +10,13 @@ function Home() {
     const [isLoaded, setIsLoaded] = useState(false);
     const [postList, setPostList] = useState([]);
 
-    const refreshPage = () => {
+    const refreshPage = async () => {
         fetch("/posts")
         .then(res => res.json())
         .then(
             (result) => {
                 setIsLoaded(true);
-                setPostList(result); // 👈 burada dikkat!
+                setPostList([...result].reverse()); // 👈 burada dikkat!
                 
             },
             (error) => {
@@ -28,7 +28,7 @@ function Home() {
 
     useEffect(() => {
         refreshPage()      
-    }, [postList]);
+    }, []);
 
     if (error) {
         return <div>Error !!!</div>;

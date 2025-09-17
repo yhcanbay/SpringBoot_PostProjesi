@@ -28,11 +28,6 @@ const linkStyle = {
     boxShadow: 'none',
 }
 
-const commentStyle = {
-    border: '1px solid #ccc',
-    borderRadius: '20px',
-}
-
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
@@ -59,11 +54,9 @@ const ExpandMore = styled((props) => {
 
 
 function PostFrame(props) {
-    const {userId, userName ,id , refreshPage} = props;
+    const {userId, userName , refreshPage} = props;
     const [expanded, setExpanded] = React.useState(false);
 
-    const [error, setError] = useState(null);
-    const [isLoaded, setIsLoaded] = useState(false);
     const [title, setTitle] = useState("");
     const [text, setText] = useState("");
     const [yayımlama, setYayımlama] = useState("Yayımla");
@@ -81,8 +74,8 @@ function PostFrame(props) {
     setTitle(value); 
   }
 
-  const handlePost = () => {
-    savePost();
+  const handlePost = async () => {
+    await savePost();
     setExpanded(!expanded);
     setText("");
     setTitle("");
@@ -97,8 +90,8 @@ function PostFrame(props) {
     }
   }, [title,text]);
 
-  const savePost = () => {
-    fetch("/posts", {
+  const savePost = async () => {
+    await fetch("/posts", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
