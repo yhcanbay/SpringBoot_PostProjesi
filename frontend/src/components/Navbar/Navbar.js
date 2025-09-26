@@ -32,15 +32,15 @@ function Navbar() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" style={styles.appBar}>
         <Toolbar>
-          <IconButton
+          {/* <IconButton
             size="large"
             edge="start"
             color="inherit"
             aria-label="menu"
             sx={{ mr: 2 }}
           >
-            <MenuIcon />
-          </IconButton>
+            <MenuIcon /> 
+          </IconButton>*/}
           <Typography style={styles.home} variant="h6" component="div">
             <Link style={styles.title} to="/">Home</Link>
           </Typography>

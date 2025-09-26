@@ -7,10 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class DtoAuth {
-    
-    private String accsessToken;
+public class DtoRefreshRequest {
+
+    private Long userId;
     private String refreshToken;
-    private String massage;
-    private Long id;
+
 }
