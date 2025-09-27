@@ -3,3 +3,9 @@ deleteLike işlemi için DtoLike'a LikeId yi ekle +
 Her userın kendi sayfasında nicknamei görünecek +
 
 başkasının profilindeyken navbarda profile bastığında avatar page değişmiyor düzeltilmeli -
+
+BearereyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1IiwiaWF0IjoxNzU4OTQ4MTExLCJleHAiOjE3NTg5NDg0NzF9.J2HfN6hq30BzUiq6p0xcjJSLSG7DIP0tyIYLHN-lJ4U
+BearereyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1IiwiaWF0IjoxNzU4OTQ4MjkyLCJleHAiOjE3NTg5NDg2NTJ9.iYtIMsqpHZs8cLbnqsFWmuH7I3eoZwl24ATp57xh324
+
+RefreshToken üretiliyor ve tokendan üretilen accses token çalışıyor ama
+veritabanında aynı kullanıcıya ait birden fazla refresh token olduğu zaman bu durum hatalara yol açıyor videonun ilerleyen zamanında düzeltilir herhalde

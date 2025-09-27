@@ -1,6 +1,5 @@
 package com.yhcanbay.sohbet_uygulamasi.service.impl;
 
-import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Optional;
 import java.util.UUID;
@@ -34,7 +33,7 @@ public class TokenServiceImpl implements ITokenService {
         RefreshToken token = new RefreshToken();
         token.setUser(user);
         token.setToken(UUID.randomUUID().toString());
-        token.setExpireDate(LocalDate.from(Instant.now().plusMillis(expireSeconds)));
+        token.setExpireDate(LocalDate.now().plusDays(7));
         tokenRepository.save(token);
 
         return token.getToken();

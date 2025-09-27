@@ -35,7 +35,7 @@ public class RefreshToken {
     @JsonIgnore
     private User user;
 
-    @Column(nullable = false,unique = true) // unique = true -> bu değer benzersiz olmalıdır
+    @Column(nullable = false) // unique = true -> bu değer benzersiz olmalıdır
     private String token;
 
     @Column(nullable = false)

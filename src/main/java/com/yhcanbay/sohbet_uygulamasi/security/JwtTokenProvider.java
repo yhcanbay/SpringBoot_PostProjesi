@@ -83,4 +83,15 @@ public class JwtTokenProvider {
             .getExpiration();
         return expiration.before(new Date());
     }
+
+    public String generateJwtTokenByUserId(Long userId) {
+
+        Date expireDate = new Date(new Date().getTime() + EXPIRES_IN);
+        Key key = Keys.hmacShaKeyFor(APP_SECRET.getBytes(StandardCharsets.UTF_8));
+
+        return Jwts.builder()
+            .setSubject(Long.toString(userId))
+            .setIssuedAt(new Date()).setExpiration(expireDate)
+            .signWith(key,SignatureAlgorithm.HS256).compact();
+    }
 }

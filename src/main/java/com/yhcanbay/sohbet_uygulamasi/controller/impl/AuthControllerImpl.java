@@ -17,6 +17,7 @@ import com.yhcanbay.sohbet_uygulamasi.dto.DtoAuth;
 import com.yhcanbay.sohbet_uygulamasi.dto.DtoRefreshRequest;
 import com.yhcanbay.sohbet_uygulamasi.dto.DtoUser;
 import com.yhcanbay.sohbet_uygulamasi.dto.DtoUserRequest;
+import com.yhcanbay.sohbet_uygulamasi.entities.RefreshToken;
 import com.yhcanbay.sohbet_uygulamasi.entities.User;
 import com.yhcanbay.sohbet_uygulamasi.security.JwtTokenProvider;
 import com.yhcanbay.sohbet_uygulamasi.service.ITokenService;
@@ -64,7 +65,7 @@ public class AuthControllerImpl {
         DtoAuth dtoAuth = new DtoAuth();
 
         dtoAuth.setId(user.getId());
-        dtoAuth.setAccsessToken("Bearer" + jwtToken);
+        dtoAuth.setAccsessToken("Bearer " + jwtToken);
         dtoAuth.setRefreshToken(tokenService.createRefreshToken(user));
 
         return dtoAuth;
@@ -93,8 +94,24 @@ public class AuthControllerImpl {
     @PostMapping("/refresh")
     public ResponseEntity<DtoAuth> refresh(@RequestBody DtoRefreshRequest refreshRequest){
 
-        tokenService.getByUserId(refreshRequest.getUserId());
+        DtoAuth dtoAuth = new DtoAuth();
+        RefreshToken token = tokenService.getByUserId(refreshRequest.getUserId());
         
-        return null;
+        if(token.getToken().equals(refreshRequest.getRefreshToken())
+        && !tokenService.isRefreshExpired(token)){
+
+            User user = token.getUser();
+
+            String jwtToken = JwtTokenProvider.generateJwtTokenByUserId(user.getId());
+
+            dtoAuth.setId(user.getId());
+            dtoAuth.setAccsessToken("Bearer " + jwtToken);
+
+            return new ResponseEntity<>(dtoAuth,HttpStatus.OK);
+
+        }else{
+            dtoAuth.setMassage("refresh token is not valid.");
+            return new ResponseEntity<>(dtoAuth,HttpStatus.UNAUTHORIZED);
+        }
     }
 }
