@@ -1,6 +1,6 @@
 # 🌱 İlk Spring Boot Projem - Sohbet Uygulaması
 
-> **Not:** Bu benim ilk Spring Boot projemdir. Spring Framework, REST API, JWT authentication ve React ile full-stack development öğrenirken geliştirdim.
+> **Not:** Bu benim ilk Spring Boot projemdir. Spring Framework, REST API, JWT authentication ve React ile full-stack development öğrenirken geliştirdim.(Frontend kısmında Aİ dan yardım alınmıştır. Projenin genel amacı Spring Öğrenmektir.)
 
 ## 📚 Proje Hakkında
 
