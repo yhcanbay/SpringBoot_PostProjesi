@@ -1,68 +1,73 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
 import LogoutIcon from '@mui/icons-material/Logout';
+import HomeIcon from '@mui/icons-material/Home';
+import PersonIcon from '@mui/icons-material/Person';
+import './Navbar.css';
 
 function Navbar() {
+  const navigate = useNavigate();
+  const currentUser = localStorage.getItem("currentUser");
+  const userName = localStorage.getItem("userName");
 
-  const styles = {
-    home : {
-      flexGrow: 1,
-      textAlign: 'left'
-    },
-    title : {
-      textDecoration: 'none',
-      color: 'white',
-      boxShadow: 'none',
-      textAlign: 'right'
-    },
-    appBar : {
-      backgroundColor : "#139A43"
-    }
-  }
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("currentUser");
+    localStorage.removeItem("userName");
+    navigate("/auth");
+    window.location.reload();
+  };
 
-    let pathname = "/users/" + localStorage.getItem("currentUser");
+  return (
+    <Box sx={{ flexGrow: 1, marginBottom: '2rem' }}>
+      <AppBar 
+        position="static" 
+        className="navbar-glass"
+        elevation={0}
+      >
+        <Toolbar className="navbar-toolbar">
+          <div className="navbar-brand">
+            <Link to="/" className="navbar-link">
+              <HomeIcon className="navbar-icon" />
+              <Typography variant="h6" component="span" className="navbar-title">
+                Sohbet App
+              </Typography>
+            </Link>
+          </div>
 
-    return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" style={styles.appBar}>
-        <Toolbar>
-          {/* <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon /> 
-          </IconButton>*/}
-          <Typography style={styles.home} variant="h6" component="div">
-            <Link style={styles.title} to="/">Home</Link>
-          </Typography>
-          <Typography variant="h6" component="div">
-            {localStorage.getItem("currentUser") != null ?
-              <div style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
-              <LogoutIcon style={{cursor: 'pointer'}} onClick={() => {
-                localStorage.removeItem("token");
-                localStorage.removeItem("currentUser");
-                localStorage.removeItem("userName");
-                window.location.reload();
-              }}/>
-              <Link style={styles.title} to={pathname}>Profile</Link>
-              </div>
-              :
-              <Link style={styles.title} to="/auth">Login/Register</Link>
-            }
-          </Typography>
+          <div className="navbar-actions">
+            {currentUser ? (
+              <>
+                <Link to={`/users/${currentUser}`} className="navbar-link profile-link">
+                  <PersonIcon className="navbar-icon" />
+                  <Typography variant="body1" component="span">
+                    {userName}
+                  </Typography>
+                </Link>
+                <IconButton 
+                  className="logout-btn"
+                  onClick={handleLogout}
+                  aria-label="logout"
+                >
+                  <LogoutIcon />
+                </IconButton>
+              </>
+            ) : (
+              <Link to="/auth" className="navbar-link auth-link">
+                <Typography variant="body1" component="span">
+                  Giriş Yap / Kayıt Ol
+                </Typography>
+              </Link>
+            )}
+          </div>
         </Toolbar>
       </AppBar>
     </Box>
-
   );
 }
 

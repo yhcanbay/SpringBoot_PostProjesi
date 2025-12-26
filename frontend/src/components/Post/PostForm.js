@@ -13,19 +13,20 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import Button from '@mui/material/Button';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
+import './PostForm.css';
 
 const PostStyle = {
-    width : '100%',
-    maxWidth : '800px',
-    justifyContent : 'center',
-    alignItems : 'center',
-    margin : '20px',
-    borderRadius : '50px'
+  width: '100%',
+  maxWidth: '800px',
+  justifyContent: 'center',
+  alignItems: 'center',
+  margin: '20px',
+  borderRadius: '50px'
 }
 
 const linkStyle = {
-    textDecoration: 'none',
-    boxShadow: 'none',
+  textDecoration: 'none',
+  boxShadow: 'none',
 }
 
 const ExpandMore = styled((props) => {
@@ -54,13 +55,13 @@ const ExpandMore = styled((props) => {
 
 
 function PostFrame(props) {
-    const {userId, userName , refreshPage} = props;
-    const [expanded, setExpanded] = React.useState(false);
+  const { userId, userName, refreshPage } = props;
+  const [expanded, setExpanded] = React.useState(false);
 
-    const [title, setTitle] = useState("");
-    const [text, setText] = useState("");
-    const [yayımlama, setYayımlama] = useState("Yayımla");
-    const [isAlert, setIsAlert] = useState(false);
+  const [title, setTitle] = useState("");
+  const [text, setText] = useState("");
+  const [yayımlama, setYayımlama] = useState("Yayımla");
+  const [isAlert, setIsAlert] = useState(false);
 
   const handleExpandClick = () => {
     setExpanded(expanded);
@@ -71,7 +72,7 @@ function PostFrame(props) {
   }
 
   const handleTitle = (value) => {
-    setTitle(value); 
+    setTitle(value);
   }
 
   const handlePost = async () => {
@@ -85,17 +86,17 @@ function PostFrame(props) {
   }
 
   useEffect(() => {
-    if(title !== "" || text !== ""){
-        setYayımlama("Yayımla");
+    if (title !== "" || text !== "") {
+      setYayımlama("Yayımla");
     }
-  }, [title,text]);
+  }, [title, text]);
 
   const savePost = async () => {
     await fetch("/posts", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization" : localStorage.getItem("token"),
+        "Authorization": localStorage.getItem("token"),
       },
       body: JSON.stringify({
         title: title,
@@ -105,67 +106,85 @@ function PostFrame(props) {
     })
       .then((response) => response.json())
       .catch((error) => {
-        console.error("Error:", error); 
+        console.error("Error:", error);
       });
   };
 
-  
+
   return (
-    <div style={PostStyle}>
-      <Snackbar open={isAlert} autoHideDuration={6000} onClose={() => setIsAlert(false)} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
-      <Alert  severity="success">Post Başarıyla Yayımlandı...</Alert>
+    <div className="post-form-container">
+      <Snackbar
+        open={isAlert}
+        autoHideDuration={6000}
+        onClose={() => setIsAlert(false)}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+      >
+        <Alert className="success-alert" severity="success">
+          ✅ Post Başarıyla Yayımlandı!
+        </Alert>
       </Snackbar>
-    <Card style={{borderRadius: '20px'}}>
-      <CardHeader
-        avatar={
-          <Link style={linkStyle} to={"/users/" + userId}>
-          <Avatar sx={{ backgroundImage: "linear-gradient(45deg, #139A43, #58B09C)" }} aria-label="recipe">
-            {userName.charAt(0).toUpperCase()}
-          </Avatar>
-          </Link>
-        }
-        title = <OutlinedInput
-        id='outlined-basic'
-        multiline
-        fullWidth   
-        placeholder='Title'
-        value={title}
-        inputProps={{ maxLength: 30 }}
-        onChange={(e) => handleTitle(e.target.value)}>
-        </OutlinedInput>
-      />
-      <CardContent>
-        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+
+      <Card className="post-form-card">
+        <CardHeader
+          className="post-form-header"
+          avatar={
+            <Link style={linkStyle} to={"/users/" + userId}>
+              <Avatar className="post-form-avatar" aria-label="recipe">
+                {userName.charAt(0).toUpperCase()}
+              </Avatar>
+            </Link>
+          }
+          title=<OutlinedInput
+            id='outlined-basic'
+            className="post-form-input"
+            multiline
+            fullWidth
+            placeholder='Başlık (max 30 karakter)'
+            value={title}
+            inputProps={{ maxLength: 30 }}
+            onChange={(e) => handleTitle(e.target.value)}>
+          </OutlinedInput>
+        />
+        <CardContent className="post-form-content">
+          <Typography variant="body2">
             <OutlinedInput
-        id='outlined-basic'
-        multiline
-        fullWidth   
-        placeholder='Text'
-        value={text}
-        inputProps={{ maxLength: 300 }}
-        onChange={(e) => handleText(e.target.value)}>
-        </OutlinedInput>
-        </Typography>
-      </CardContent>
-      <CardActions disableSpacing>        
-        <ExpandMore
-          expand={expanded}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="show more"
-        >
-        <Button onClick={handlePost} style={{backgroundImage: "linear-gradient(45deg, #139A43, #58B09C)"}} variant="contained">{yayımlama}</Button>
-        </ExpandMore>
-      </CardActions>
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent>
-          
+              id='outlined-basic'
+              className="post-form-input"
+              multiline
+              fullWidth
+              placeholder='İçerik (max 300 karakter)'
+              value={text}
+              inputProps={{ maxLength: 300 }}
+              onChange={(e) => handleText(e.target.value)}>
+            </OutlinedInput>
+          </Typography>
         </CardContent>
-      </Collapse>
-    </Card>
+        <CardActions disableSpacing className="post-form-actions">
+          <ExpandMore
+            expand={expanded}
+            onClick={handleExpandClick}
+            aria-expanded={expanded}
+            aria-label="show more"
+          >
+            <Button
+              onClick={handlePost}
+              className="publish-button"
+              variant="contained"
+              disabled={!title || !text}
+            >
+              {yayımlama === "Yayımlandı" ? "✅ " : "📝 "}{yayımlama}
+            </Button>
+          </ExpandMore>
+        </CardActions>
+        <Collapse in={expanded} timeout="auto" unmountOnExit>
+          <CardContent>
+
+          </CardContent>
+        </Collapse>
+      </Card>
     </div>
   );
-  
+
 }
 
 export default PostFrame;

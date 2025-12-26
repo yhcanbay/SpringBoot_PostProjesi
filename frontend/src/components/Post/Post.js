@@ -1,4 +1,4 @@
-import React, { useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -13,6 +13,7 @@ import CommentIcon from '@mui/icons-material/Comment';
 import { Link } from 'react-router-dom';
 import Comment from '../Comment/Comment';
 import CommentForm from '../Comment/CommentForm';
+import './Post.css';
 
 const PostStyle = {
   width: '100%',
@@ -43,7 +44,7 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-function Post({ title, text, userId, userName, id ,postUserId}) {
+function Post({ title, text, userId, userName, id, postUserId }) {
   const [liked, setLiked] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const [likeList, setLikeList] = useState([]);
@@ -68,7 +69,7 @@ function Post({ title, text, userId, userName, id ,postUserId}) {
         }
       );
   };
- 
+
   // Yorumları yenile
   const refreshComments = () => {
     fetch(`/comments?postId=${id}`)
@@ -145,11 +146,11 @@ function Post({ title, text, userId, userName, id ,postUserId}) {
         .then((response) => {
           if (response.ok) {
             fetch(`/likes?postId=${id}`)
-            .then(res => res.json())
-            .then(data => {
-              setLikeList(data);
-              setLiked(false);
-            });
+              .then(res => res.json())
+              .then(data => {
+                setLikeList(data);
+                setLiked(false);
+              });
             setLiked(false);
           } else {
             console.error("Failed to delete like");
@@ -159,61 +160,63 @@ function Post({ title, text, userId, userName, id ,postUserId}) {
           console.error("Error:", error);
         });
     }
-      console.log("Like list: ", likeList);
+    console.log("Like list: ", likeList);
   };
 
   if (error) {
-    return <div>Error !!!</div>;
+    return <div className="post-loading">❌ Hata oluştu!</div>;
   }
   if (!likesLoaded || !commentsLoaded) {
-    return <div>Loading...</div>;
+    return <div className="post-loading">⏳ Yükleniyor...</div>;
   }
   if (!Array.isArray(commentList)) {
-    return <div>Veri format hatası</div>;
+    return <div className="post-loading">⚠️ Veri format hatası</div>;
   }
 
   return (
-    <div style={PostStyle}>
-      <Card style={{ borderRadius: '40px' }}>
+    <div className="post-container">
+      <Card className="post-card">
         <CardHeader
+          className="post-header"
           avatar={
             <Link style={linkStyle} to={`/users/${postUserId}`}>
               <Avatar
-                sx={{ background: "linear-gradient(45deg, #139A43, #58B09C)", color: "white" }}
+                className="post-avatar"
                 aria-label="recipe"
               >
                 {userName?.charAt(0)?.toUpperCase() || "?"}
               </Avatar>
             </Link>
           }
-          title={<h3>{title}</h3>}
+          title={<h3 className="post-title">{title}</h3>}
         />
-        <CardContent>
-          <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+        <CardContent className="post-content">
+          <Typography variant="body2">
             {text}
           </Typography>
         </CardContent>
-        <CardActions disableSpacing style={{ borderBottom: '1px solid #ccc', marginBottom: '10px' }}>
-          <IconButton onClick={clickLike} aria-label="add to favorites">
+        <CardActions disableSpacing className="post-actions">
+          <IconButton onClick={clickLike} aria-label="add to favorites" className="like-button">
             {localStorage.getItem("currentUser") == null ?
-              <div style={likeStyle}><FavoriteIcon /><h5>{" " + likeList.length}</h5></div> :
-              <div style={likeStyle}><FavoriteIcon style={liked ? { color: "red" } : null} /><h5>{" " + likeList.length}</h5></div>}
+              <div style={likeStyle}><FavoriteIcon className="like-icon" /><h5 className="like-count">{likeList.length}</h5></div> :
+              <div style={likeStyle}><FavoriteIcon className={`like-icon ${liked ? 'liked' : ''}`} /><h5 className="like-count">{likeList.length}</h5></div>}
           </IconButton>
           <ExpandMore
             expand={expanded}
             onClick={handleExpandClick}
             aria-expanded={expanded}
             aria-label="show more"
+            className="comment-toggle"
           >
-            <h5>{commentList.length + " "}</h5><CommentIcon />
+            <h5 className="comment-count">{commentList.length}</h5><CommentIcon />
           </ExpandMore>
         </CardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
-          <CardContent>
+          <CardContent className="comment-section">
             {localStorage.getItem("currentUser") == null ?
-              <h4 style={{ textAlign: "left" }}>Yorum yapmak için giriş yapınız</h4> :
+              <h4 className="login-prompt">🔒 Yorum yapmak için giriş yapınız</h4> :
               <div>
-                <h4 style={{ textAlign: "left" }}>Yorum Yap</h4>
+                <h4 className="comment-header">💬 Yorum Yap</h4>
                 <CommentForm
                   userId={userId}
                   userName={localStorage.getItem("userName")}
@@ -221,9 +224,9 @@ function Post({ title, text, userId, userName, id ,postUserId}) {
                   refreshComments={refreshComments}
                 />
               </div>}
-            <h4 style={{ textAlign: "left" }}>Yorumlar</h4>
+            <h4 className="comment-header">💭 Yorumlar</h4>
             {commentList.length === 0 ?
-              <h5 style={{ textAlign: "left" }}>Henüz yorum yapılmadı...</h5> :
+              <h5 className="no-comments">Henüz yorum yapılmadı...</h5> :
               <div>
                 {commentList.map(comment => (
                   <Comment
